@@ -1,0 +1,26 @@
+{
+  "name": "owners",
+  "version": "1.0.0",
+  "description": "Social profiles and package lists for every npm package author",
+  "main": "index.json",
+  "repository": "https://github.com/zeke/owners",
+  "author": {
+    "name": "Zeke Sikelianos",
+    "email": "zeke@sikelianos.com"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "clean-deep": "^2.0.1",
+    "limiter": "^1.1.0",
+    "lodash": "^4.17.4",
+    "mocha": "^3.2.0",
+    "npm-user": "^2.1.0",
+    "package-stream": "^1.0.2",
+    "standard": "^8.6.0",
+    "standard-markdown": "^2.3.0"
+  },
+  "scripts": {
+    "build": "node script/build.js > index.json"
+  }
+}
