@@ -21,6 +21,7 @@
     "standard-markdown": "^2.3.0"
   },
   "scripts": {
-    "build": "node script/build.js > index.json"
+    "build": "node script/build.js > index.json",
+    "release": "./script/release.sh"
   }
 }
