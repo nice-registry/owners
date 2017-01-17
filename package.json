@@ -8,7 +8,8 @@
   "license": "MIT",
   "scripts": {
     "build": "node script/build.js > index.json",
-    "release": "./script/release.sh"
+    "release": "./script/release.sh",
+    "test": "mocha && standard && standard-markdown"
   },
   "devDependencies": {
     "chai": "^3.5.0",

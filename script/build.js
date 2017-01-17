@@ -1,6 +1,5 @@
 const registry = require('package-stream')()
 const npmUser = require('npm-user')
-const lodash = require('lodash')
 const cleanDeep = require('clean-deep')
 const RateLimiter = require('limiter').RateLimiter
 const limiter = new RateLimiter(2, 'second')
@@ -14,22 +13,25 @@ function getProfiles (pkg) {
   if (!pkg || !pkg.name) return
   if (!Array.isArray(pkg.owners)) return
 
-
   pkg.owners.forEach(owner => {
-    const {name, email} = owner
+    const username = owner.name
 
-    if (!owners[name]) {
-      owners[name] = Object.assign({username: owner.name, email: owner.email}, {packages: []})
+    if (!owners[username]) {
+      owners[username] = Object.assign({
+        username: owner.name,
+        email: owner.email,
+        packageCount: 0
+      })
     }
 
-    owners[name].packages.push(pkg.name)
+    owners[username].packageCount++
 
     limiter.removeTokens(1, () => {
-      console.error(name, owners[name].packages.length)
+      console.error(username, owners[username].packageCount)
 
-      npmUser(name)
+      npmUser(username)
         .then(profile => {
-          Object.assign(owners[name], cleanDeep(profile))
+          Object.assign(owners[username], cleanDeep(profile))
         })
         .catch(error => {
           console.error('User not found')
@@ -44,7 +46,7 @@ function getProfiles (pkg) {
 
 function finish () {
   const ownersArray = Object.values(owners)
-    .sort((a, b) => b.packages.length - a.packages.length)
+    .sort((a, b) => b.packageCount - a.packageCount)
 
   process.stdout.write(JSON.stringify(ownersArray, null, 2))
   process.exit()
