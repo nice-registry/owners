@@ -1,12 +1,17 @@
 #!/usr/bin/env bash
 
-set -x            # print commands before execution
+# set -x            # print commands before execution
 set -o errexit    # always exit on error
 set -o pipefail   # honor exit codes when piping
 set -o nounset    # fail on unset variables
 
-git clone $npm_package_repository
-cd $(basename $npm_package_repository)
+repo=$npm_package_repository_url
+repo="${repo/git+/}"
+repo="${repo/.git/}"
+project=$(basename $repo)
+
+git clone $repo $project
+cd $project
 npm run build
 npm test
 [[ `git status --porcelain` ]] || exit

@@ -4,11 +4,12 @@
   "description": "Social profiles and package lists for every npm package author",
   "main": "index.json",
   "repository": "https://github.com/zeke/owners",
-  "author": {
-    "name": "Zeke Sikelianos",
-    "email": "zeke@sikelianos.com"
-  },
+  "author": "Zeke Sikelianos <zeke@sikelianos.com>",
   "license": "MIT",
+  "scripts": {
+    "build": "node script/build.js > index.json",
+    "release": "./script/release.sh"
+  },
   "devDependencies": {
     "chai": "^3.5.0",
     "clean-deep": "^2.0.1",
@@ -19,9 +20,5 @@
     "package-stream": "^1.0.2",
     "standard": "^8.6.0",
     "standard-markdown": "^2.3.0"
-  },
-  "scripts": {
-    "build": "node script/build.js > index.json",
-    "release": "./script/release.sh"
   }
 }
