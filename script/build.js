@@ -2,7 +2,7 @@ const registry = require('package-stream')()
 const npmUser = require('npm-user')
 const cleanDeep = require('clean-deep')
 const RateLimiter = require('limiter').RateLimiter
-const limiter = new RateLimiter(5, 'second')
+const limiter = new RateLimiter(10, 'second')
 const owners = {}
 
 registry
@@ -34,7 +34,7 @@ function getProfiles (pkg) {
           Object.assign(owners[username], cleanDeep(profile))
         })
         .catch(error => {
-          console.error(`user not found: ${username}`)
+          console.error(`error:              ${username} ${error.statusCode}`)
           // console.error(error)
         })
     })
