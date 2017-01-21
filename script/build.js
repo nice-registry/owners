@@ -1,3 +1,5 @@
+const fs = require('fs')
+const path = require('path')
 const registry = require('package-stream')()
 const npmUser = require('npm-user')
 const cleanDeep = require('clean-deep')
@@ -15,27 +17,33 @@ function getProfiles (pkg) {
 
   pkg.owners.forEach(owner => {
     const username = owner.name
+    if (!username || username.match(' ')) return
+    const cacheFile = path.join(__dirname, `../cache/${username}.json`)
+
+    if (fs.existsSync(cacheFile)) {
+      owners[username] = require(cacheFile)
+      console.error(username, '(cached)')
+      return
+    }
 
     if (!owners[username]) {
       owners[username] = Object.assign({
         username: owner.name,
-        email: owner.email,
-        packageCount: 0
+        email: owner.email
       })
     }
 
-    owners[username].packageCount++
-
     limiter.removeTokens(1, () => {
-      console.error(username, owners[username].packageCount)
+      console.error(username)
 
       npmUser(username)
         .then(profile => {
           Object.assign(owners[username], cleanDeep(profile))
+          fs.writeFileSync(cacheFile, JSON.stringify(owners[username], null, 2))
         })
         .catch(error => {
-          console.error(`error:              ${username} ${error.statusCode}`)
-          // console.error(error)
+          console.error(`\nerror: ${username}`)
+          console.error(error)
         })
     })
   })
@@ -45,9 +53,6 @@ function getProfiles (pkg) {
 }
 
 function finish () {
-  const ownersArray = Object.values(owners)
-    .sort((a, b) => b.packageCount - a.packageCount)
-
-  process.stdout.write(JSON.stringify(ownersArray, null, 2))
+  process.stdout.write(JSON.stringify(owners, null, 2))
   process.exit()
 }
