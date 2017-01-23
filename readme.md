@@ -1,11 +1,13 @@
 # owners
 
-> Social profiles and package lists for every npm package author
+> Usernames and package counts for every npm package author
+
+Works offline. Updated daily.
 
 ## Installation
 
 ```sh
-yarn add owners
+npm install owners --save
 ```
 
 ## Usage
@@ -13,11 +15,33 @@ yarn add owners
 ```js
 const owners = require('owners')
 
-// Array is sorted by package count
-owners[0]
+owners.length
+// 106792
 
-// Find a specific user
-const zeke = owners.find(owner => owner.username === 'zeke')
+owners.slice(0, 10)
+// [
+//   { username: 'ehsalazar', packageCount: 1541 },
+//   { username: 'retyped', packageCount: 1541 },
+//   { username: 'joshhunt', packageCount: 1342 },
+//   { username: 'jonschlinkert', packageCount: 1230 },
+//   { username: 'sindresorhus', packageCount: 953 },
+//   { username: 'okunishinishi', packageCount: 753 },
+//   { username: 'kgryte', packageCount: 707 },
+//   { username: 'substack', packageCount: 644 },
+//   { username: 'ionicabizau', packageCount: 602 },
+//   { username: 'dominictarr', packageCount: 568 }
+// ]
+
+owners.find(owner => owner.username === 'zeke').packageCount
+// 180
+
+```
+
+## Tests
+
+```sh
+npm install
+npm test
 ```
 
 ## Dependencies
@@ -27,11 +51,9 @@ None
 ## Dev Dependencies
 
 - [chai](https://github.com/chaijs/chai): BDD/TDD assertion library for node.js and the browser. Test framework agnostic.
-- [clean-deep](https://github.com/seegno/clean-deep): Remove falsy, empty or nullable values from objects
-- [limiter](https://github.com/jhurliman/node-rate-limiter): A generic rate limiter for node.js. Useful for API clients, web crawling, or other tasks that need to be throttled
+- [count-array-values](https://github.com/zeke/count-array-values): Count the instances of each value in an array
 - [lodash](https://github.com/lodash/lodash): Lodash modular utilities.
 - [mocha](https://github.com/mochajs/mocha): simple, flexible, fun test framework
-- [npm-user](https://github.com/sindresorhus/npm-user): Get user info of a npm user
 - [package-stream](https://github.com/zeke/package-stream): An endless stream of clean package data from the npm registry.
 - [standard](https://github.com/feross/standard): JavaScript Standard Style
 - [standard-markdown](https://github.com/zeke/standard-markdown): Test your Markdown files for Standard JavaScript Style™
