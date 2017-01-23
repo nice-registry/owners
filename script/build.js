@@ -1,6 +1,6 @@
 const registry = require('package-stream')()
 const count = require('count-array-values')
-var usernames = []
+const usernames = []
 
 registry
   .on('package', getPackageUsernames)
@@ -8,8 +8,11 @@ registry
 
 function getPackageUsernames (pkg) {
   if (!pkg || !Array.isArray(pkg.owners)) return
-  usernames = usernames.concat(pkg.owners.map(owner => owner.name))
-  process.stderr.write('.')
+  pkg.owners.forEach(owner => {
+    if (owner.name && owner.name.match(' ')) return
+    usernames.push(owner.name)
+    process.stderr.write('.')
+  })
 }
 
 function finish () {

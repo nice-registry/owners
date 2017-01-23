@@ -9,8 +9,8 @@ describe('owners', () => {
     expect(owners).to.not.be.empty
   })
 
-  it('includes more than 106791 accounts', () => {
-    expect(owners.length).to.be.above(106791)
+  it('includes more than 106000 accounts', () => {
+    expect(owners.length).to.be.above(106000)
   })
 
   it('has a username and packageCount prop', () => {
