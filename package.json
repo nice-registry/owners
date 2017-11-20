@@ -1,6 +1,6 @@
 {
   "name": "owners",
-  "version": "1.296.0",
+  "version": "1.297.0",
   "description": "Usernames and package counts for every npm package author",
   "main": "index.json",
   "repository": "https://github.com/nice-registry/owners",
